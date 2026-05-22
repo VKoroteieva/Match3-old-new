@@ -81,7 +81,7 @@ let boardCells = [];
 
 
 const levelConfig = {
-  1: { targetScore: 1500, moves: Infinity, grape: 0, explosions: 0, ultra: 0, apple: 0 },
+  1: { targetScore: 1500, moves: 20, grape: 0, explosions: 0, ultra: 0, apple: 0 }, // Змінено Infinity на 20
   2: { targetScore: 0, moves: 25, grape: 25, explosions: 0, ultra: 0, apple: 0 },
   3: { targetScore: 0, moves: 30, grape: 0, explosions: 4, ultra: 0, apple: 0 },
   4: { targetScore: 0, moves: 35, grape: 0, explosions: 0, ultra: 1, apple: 0 },
@@ -380,16 +380,58 @@ function checkWinCondition() {
 
 function triggerWin() {
   isProcessing = true;
-  updatePlayerSkill(currentLevel, true);
 
 
+ 
+  const completedLevel = currentLevel;
+ 
+  updatePlayerSkill(completedLevel, true);
+
+
+  const cfg = levelConfig[completedLevel];
+  const initialMoves = cfg.moves;
+  let levelJump = 1; // Базовий крок (на +1 рівень вперед)
+  let speedStatus = "Стандартне проходження";
+
+
+ 
+  if (initialMoves && initialMoves !== Infinity) {
+    const savedMoves = movesLeft;
+    const efficiencyRatio = savedMoves / initialMoves;
+
+
+    if (efficiencyRatio >= 0.60) {
+      levelJump = 3; // Стрибок на +3 рівні (з 1-го одразу на 4-й)
+      speedStatus = "🚀 Екстремально легке проходження! Стрибок на +3 рівні";
+    } else if (efficiencyRatio >= 0.40) {
+      levelJump = 2; // Стрибок на +2 рівні (з 1-го на 3-й)
+      speedStatus = "✨ Легке проходження! Стрибок на +2 рівні";
+    }
+  }
+
+
+ 
+  const targetNextLevel = completedLevel + levelJump;
+  const maxAvailableLevel = Object.keys(levelConfig).length;
+
+
+  if (targetNextLevel > maxAvailableLevel) {
+    currentLevel = maxAvailableLevel;
+  } else {
+    currentLevel = targetNextLevel;
+  }
+
+
+ 
   hideAll();
   const screen = document.getElementById('game-over');
   screen.classList.remove('hidden');
  
   screen.innerHTML = `
     <h2>ПЕРЕМОГА!</h2>
-    <p>Рівень ${currentLevel} пройдено</p>
+    <p style="font-size: 18px; margin-bottom: 5px;">Рівень <strong>${completedLevel}</strong> пройдено!</p>
+    <p style="color: #2ecc71; font-weight: bold; font-size: 14px; margin: 10px 0;">${speedStatus}</p>
+    <p style="font-size: 15px; margin-bottom: 15px;">Наступний рівень: <strong>${currentLevel}</strong></p>
     <button class="btn-play" onclick="nextLevel()">Наступний рівень</button>
     <button class="btn-back" onclick="showLevels()" style="margin-top:12px;">Меню рівнів</button>
   `;
@@ -397,13 +439,18 @@ function triggerWin() {
 
 
 function nextLevel() {
-  if (currentLevel < 5) startLevel(currentLevel + 1);
-  else {
-    alert("Вітаємо! Ви пройшли всі рівні!");
+  const maxAvailableLevel = Object.keys(levelConfig).length;
+ 
+ 
+  if (currentLevel <= maxAvailableLevel) {
+    startLevel(currentLevel);
+  } else {
+    alert("Вітаємо! Ви пройшли всі доступні рівні!");
     showLevels();
   }
 }
-Ф
+
+
 function checkEnd() {
   if (movesLeft <= 0 && movesLeft !== Infinity) {
     updatePlayerSkill(currentLevel, false);
