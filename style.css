@@ -1,0 +1,210 @@
+body {
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center; 
+    height: 100vh; 
+    margin: 0; 
+    background: #2d1b4d;
+    font-family: 'Segoe UI', sans-serif; 
+    color: white; 
+    overflow: hidden;
+}
+
+.hidden { display: none !important; }
+
+.container {
+    background: #5b2c91; 
+    padding: 30px; 
+    border-radius: 25px;
+    border: 4px solid #8e44ad; 
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    text-align: center; 
+    width: 360px;
+    box-sizing: border-box;
+}
+
+h1, h2 { 
+    color: #2ecc71; 
+    margin-bottom: 20px; 
+    text-transform: uppercase; 
+}
+
+.settings-icon {
+    position: absolute; 
+    top: 20px; 
+    right: 20px; 
+    font-size: 28px;
+    cursor: pointer; 
+    background: rgba(0,0,0,0.3); 
+    padding: 8px;
+    border-radius: 50%; 
+    border: 2px solid #8e44ad; 
+    z-index: 100;
+}
+
+.lives-container {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 10px;
+    background: rgba(0,0,0,0.4); 
+    padding: 10px 20px; 
+    border-radius: 50px;
+    margin-bottom: 15px; 
+    border: 2px solid #8e44ad;
+}
+
+/* ІГРОВІ КНОПКИ ТА РІВНІ — ТЕМНО-БЕЖЕВІ */
+.btn-play, .btn-rules, .level-item {
+    display: block;
+    padding: 12px; 
+    border: none; 
+    border-radius: 10px; 
+    font-weight: bold;
+    cursor: pointer; 
+    width: 100%; 
+    font-size: 16px; 
+    margin: 10px auto 0 auto;
+    background: #e1d4b7; /* Темніший насичений бежевий */
+    color: #3d2469; /* Темний текст для читабельності */
+    transition: background 0.3s;
+    box-sizing: border-box; /* Виправляє зміщення вправо */
+    text-align: center;
+}
+
+.btn-play:hover, .btn-rules:hover, .level-item:hover {
+    background: #d4c4a1; 
+}
+
+/* КНОПКИ ВИХОДУ — ЧЕРВОНІ */
+.btn-back { 
+    display: block;
+    background: #e74c3c; 
+    color: white; 
+    margin-top: 15px; 
+    padding: 12px; 
+    border-radius: 10px; 
+    width: 100%; 
+    border: none; 
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: background 0.3s;
+    box-sizing: border-box; /* Виправляє зміщення вправо */
+    text-align: center;
+}
+
+.btn-back:hover {
+    background: #c0392b;
+}
+
+#board {
+    background: #3d2469; 
+    padding: 10px; 
+    border-radius: 20px;
+    display: grid; 
+    grid-template-columns: repeat(8, 42px);
+    grid-template-rows: repeat(8, 42px); 
+    gap: 6px; 
+    border: 4px solid #4a2c82;
+    margin: 0 auto;
+}
+
+.cell {
+    width: 42px; 
+    height: 42px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    cursor: pointer; 
+    position: relative;
+    overflow: hidden;
+}
+
+.cell.selected { outline: 3px solid #2ecc71; z-index: 10; }
+.cell img { width: 85%; pointer-events: none; }
+
+@keyframes fallDown {
+    0% { transform: translateY(-42px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+.cell.falling img { animation: fallDown 0.3s ease-out; }
+
+.removing img { transform: scale(0); opacity: 0; transition: 0.2s; }
+
+.progress-bar { 
+    background: #2ecc71; 
+    color: #1a1a1a; 
+    padding: 12px; 
+    border-radius: 12px; 
+    font-weight: 900; 
+    margin-bottom: 10px; 
+    text-align: center; 
+}
+
+.stats { 
+    display: flex; 
+    justify-content: space-between; 
+    gap: 10px; 
+    margin-bottom: 10px; 
+    width: 100%; 
+}
+
+.stat-box { 
+    background: #4a2c82; 
+    padding: 10px; 
+    border-radius: 10px; 
+    flex: 1; 
+    text-align: center; 
+    border: 2px solid #8e44ad; 
+}
+
+.rules-content { 
+    text-align: left; 
+    background: rgba(0,0,0,0.2); 
+    padding: 15px; 
+    border-radius: 15px; 
+    margin-bottom: 15px; 
+}
+
+.setting-row { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 10px; 
+}
+
+.switch { 
+    position: relative; 
+    display: inline-block; 
+    width: 40px; 
+    height: 20px; 
+}
+
+.switch input { opacity: 0; }
+
+.slider { 
+    position: absolute; 
+    cursor: pointer; 
+    top: 0; left: 0; right: 0; bottom: 0; 
+    background-color: #ccc; 
+    border-radius: 20px; 
+    transition: .4s; 
+}
+
+.slider:before { 
+    position: absolute; 
+    content: ""; 
+    height: 16px; 
+    width: 16px; 
+    left: 2px; 
+    bottom: 2px; 
+    background-color: white; 
+    border-radius: 50%; 
+    transition: .4s; 
+}
+
+input:checked + .slider { background-color: #2ecc71; }
+input:checked + .slider:before { transform: translateX(20px); }

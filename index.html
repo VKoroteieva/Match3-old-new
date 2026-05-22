@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Match 3 Fruit Game</title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="lives-container">
+        <span class="lives-count">❤️ <span id="lives-val">5</span></span>
+        <span id="timer-display" class="lives-timer"></span>
+    </div>
+
+    <div class="settings-icon" onclick="showSettings()">⚙️</div>
+
+   <div id="main-menu" class="container">
+    <h1>Match 3</h1>
+    <button class="btn-play" onclick="showLevels()">Грати</button>
+    <button class="btn-rules" onclick="showRules()">Правила</button>
+    
+    <div id="player-stats" style="margin-top: 20px; font-size: 17px; color: #2ecc71;">
+        Майстерність: <span id="skill-value">50</span>%
+    </div>
+</div>
+
+    <div id="rules-menu" class="container hidden">
+        <h2>Правила гри</h2>
+        <div class="rules-content">
+            <p>Збирай 3 фрукти в ряд.</p>
+            <p>4 в ряд — видаляє весь вид.</p>
+            <p>5 в ряд — мега вибух поля.</p>
+            <p>❤️ Життя поповнюються кожні 3 хв.</p>
+        </div>
+        <button class="btn-play" onclick="showMainMenu()">Зрозуміло</button>
+    </div>
+
+    <div id="settings-menu" class="container hidden">
+        <h2>Налаштування</h2>
+        <div class="setting-row">
+            <span>Музика (фон)</span>
+            <label class="switch">
+                <input type="checkbox" id="music-toggle" checked onchange="toggleMusic()">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="setting-row">
+            <span>Ефекти (вибухи)</span>
+            <label class="switch">
+                <input type="checkbox" id="sfx-toggle" checked onchange="toggleSFX()">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <button class="btn-play" onclick="closeSettings()">Зберегти</button>
+    </div>
+
+    <div id="levels-menu" class="container hidden">
+        <h2>Оберіть рівень</h2>
+        <div class="levels-list">
+            <div class="level-item" onclick="startLevel(1)">Рівень 1</div>
+            <div class="level-item" onclick="startLevel(2)">Рівень 2</div>
+            <div class="level-item" onclick="startLevel(3)">Рівень 3</div>
+            <div class="level-item" onclick="startLevel(4)">Рівень 4</div>
+            <div class="level-item" onclick="startLevel(5)">Рівень 5</div>
+        </div>
+        <button class="btn-back" onclick="showMainMenu()">Назад</button>
+    </div>
+
+    <div id="game" class="hidden">
+        <div class="game-header">
+            <div id="progress-info" class="progress-bar">Завдання: ...</div>
+            <div class="stats">
+                <div class="stat-box">Очки: <span id="score">0</span></div>
+                <div class="stat-box">Ходи: <span id="moves">0</span></div>
+            </div>
+        </div>
+        <div id="board"></div>
+        <button onclick="showLevels()" class="btn-back">Здатися</button>
+    </div>
+
+    <div id="game-over" class="container hidden">
+        <h2 id="status-title"></h2>
+        <p id="game-over-msg"></p>
+        <button class="btn-play" onclick="showLevels()">До рівнів</button>
+    </div>
+
+    <script src="script.js"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(() => console.log('Service Worker зареєстровано'))
+                .catch(err => console.log('SW помилка:', err));
+        }
+    </script>
+
+</body>
+</html>

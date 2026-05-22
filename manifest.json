@@ -1,0 +1,15 @@
+{
+  "name": "Три в ряд",
+  "short_name": "Match3",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#2d1b4d",
+  "theme_color": "#8e44ad",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3137/3137044.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
